@@ -10,8 +10,10 @@
             "email": "jobsrey@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "yiisoft/yii2": "~2.0.0"
+        "yiisoft/yii2": "~2.0.0",
+        "omnilight/yii2-shopping-cart": "*"
     },
     "autoload": {
         "psr-4": {
