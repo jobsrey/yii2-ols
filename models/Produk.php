@@ -3,6 +3,7 @@
 namespace jobsrey\ols\models;
 
 use Yii;
+use creocoder\taggable\TaggableBehavior;
 
 /**
  * This is the model class for table "shop_produk".
@@ -16,12 +17,48 @@ use Yii;
  */
 class Produk extends \yii\db\ActiveRecord
 {
+
+    public $tagValues; //for tag widget string
+    public $picture;
+
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'shop_produk';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'taggable' => [
+                'class' => TaggableBehavior::className(),
+                // 'tagValuesAsArray' => false,
+                // 'tagRelation' => 'tags',
+                // 'tagValueAttribute' => 'name',
+                // 'tagFrequencyAttribute' => 'frequency',
+            ],
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }
+
+    public static function find()
+    {
+        return new ProdukTag(get_called_class());
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->viaTable('{{%shop_tag_assn}}', ['post_id' => 'id']);
     }
 
     /**
@@ -32,9 +69,10 @@ class Produk extends \yii\db\ActiveRecord
         return [
             [['name', 'price', 'qty'], 'required'],
             [['price'], 'number'],
-            [['qty', 'is_new'], 'integer'],
+            [['qty', 'is_new','post_status'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 255],
+            [['tagValues'],'safe'],
         ];
     }
 
@@ -49,7 +87,9 @@ class Produk extends \yii\db\ActiveRecord
             'price' => Yii::t('app', 'Price'),
             'qty' => Yii::t('app', 'Qty'),
             'description' => Yii::t('app', 'Description'),
-            'is_new' => Yii::t('app', 'Is New'),
+            'is_new' => Yii::t('app', 'Status'),
+            'tagValues' => Yii::t('app','Tag'),
+            'post_status' => Yii::t('app','Post Status'),
         ];
     }
 }

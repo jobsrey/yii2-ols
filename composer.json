@@ -14,7 +14,10 @@
     "require": {
         "yiisoft/yii2": "~2.0.0",
         "omnilight/yii2-shopping-cart": "*",
-        "kartik-v/yii2-widget-sidenav": "*"
+        "kartik-v/yii2-widget-sidenav": "*",
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "creocoder/yii2-taggable": "~2.0",
+        "2amigos/yii2-tinymce-widget" : "~1.1"
     },
     "autoload": {
         "psr-4": {
