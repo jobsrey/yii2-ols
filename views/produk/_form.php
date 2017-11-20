@@ -81,12 +81,6 @@ use dosamigos\tinymce\TinyMce;
                         ->dropDownList(
                             [0=>Yii::t('app','Draf'),1=>Yii::t('app','Post'),3=>Yii::t('app','No Active')]);
                 ?>
-
-                Ini untuk properties
-                - tag
-                - kategori
-                - upload gambar
-                - diskon
             </div>
         </div>
     </div>
