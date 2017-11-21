@@ -1,42 +1,83 @@
 <?php
-
-use yii\helpers\Html;
-use yii\grid\GridView;
-
 /* @var $this yii\web\View */
-/* @var $searchModel jobsrey\ols\models\ProdukSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\widgets\ListView;
+use yii\data\ActiveDataProvider;
 
-$this->title = Yii::t('app', 'Produks');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="produk-index">
-    <div class="col-md-3">
-        <?= $this->render('../_menu');?>
-    </div>
-    <div class="col-md-9">
-        <h1><?= Html::encode($this->title) ?></h1>
-        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<div class="col-md-3">
+	<!-- sidebar untuk kategori dan kawan2 -->
+</div>
+<div class="col-md-8">
+	<div class="col-md-12">
+		<!-- Untuk menu pencarian produk -->
+	</div>
+	<div class="col-md-12">
+		<h1>Hello</h1>
+		<style type="text/css">
+			.thumbnail
+			{
+			    margin-bottom: 20px;
+			    padding: 0px;
+			    -webkit-border-radius: 0px;
+			    -moz-border-radius: 0px;
+			    border-radius: 0px;
+			}
 
-        <p>
-            <?= Html::a(Yii::t('app', 'Create Produk'), ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
+			.item.list-group-item
+			{
+			    float: none;
+			    width: 100%;
+			    background-color: #fff;
+			    margin-bottom: 10px;
+			}
+			.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
+			{
+			    background: #428bca;
+			}
 
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
+			.item.list-group-item .list-group-image
+			{
+			    margin-right: 10px;
+			}
+			.item.list-group-item .thumbnail
+			{
+			    margin-bottom: 0px;
+			}
+			.item.list-group-item .caption
+			{
+			    padding: 9px 9px 0px 9px;
+			}
+			.item.list-group-item:nth-of-type(odd)
+			{
+			    background: #eeeeee;
+			}
 
-                // 'id',
-                'name',
-                'price',
-                'qty',
-                // 'description:ntext',
-                //'is_new',
+			.item.list-group-item:before, .item.list-group-item:after
+			{
+			    display: table;
+			    content: " ";
+			}
 
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]); ?>
-    </div>
+			.item.list-group-item img
+			{
+			    float: left;
+			}
+			.item.list-group-item:after
+			{
+			    clear: both;
+			}
+			.list-group-item-text
+			{
+			    margin: 0 0 11px;
+			}
+		</style>
+		<div id="products" class="row list-group">
+			<?= ListView::widget([
+			    'dataProvider' => $dataProvider,
+			    'itemView' => '_listProduk',
+			]); ?>
+		</div>
+		
+		<!-- untuk list produk -->
+	</div>
 </div>
