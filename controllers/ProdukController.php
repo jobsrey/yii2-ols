@@ -31,6 +31,8 @@ class ProdukController extends \yii\web\Controller
         $model = $this->findProduk($id);  
         $modelForm = new FormOrder();
 
+        $dataProvince = $modelForm->ambilProvice();
+
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -43,6 +45,7 @@ class ProdukController extends \yii\web\Controller
                     'content'=>$this->renderAjax('order', [
                         'model' => $model,
                         'modelForm' => $modelForm,
+                        'dataProvince' => $dataProvince,
                     ]),
                     'footer'=> Html::button('<i class="fa fa-shopping-cart" aria-hidden="true"></i> '.Yii::t("app",'Add to cart'),['class'=>'btn btn-primary col-md-12','type'=>"submit"])
         
@@ -65,6 +68,7 @@ class ProdukController extends \yii\web\Controller
                     'content'=>$this->renderAjax('order', [
                         'model' => $model,
                         'modelForm' => $modelForm,
+                        'dataProvince' => $dataProvince,
                     ]),
                     'footer'=> Html::button('<i class="fa fa-shopping-cart" aria-hidden="true"></i> '.Yii::t("app",'Add to cart'),['class'=>'btn btn-primary col-md-12','type'=>"submit"])
         
