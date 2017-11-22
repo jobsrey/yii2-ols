@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr>
                     <td><i class="fa fa-tag" aria-hidden="true"></i> <?= Yii::t('app','Condition');?></td>
                     <td>New</td>
-                    <td><i class="fa fa-truck" aria-hidden="true"></i> <?= Yii::t('app','Booking Min');?></td>
+                    <td><i class="fa fa-shopping-cart" aria-hidden="true"></i><?= Yii::t('app','Booking Min');?></td>
                     <td>1</td>
                 </tr>
             </table>
