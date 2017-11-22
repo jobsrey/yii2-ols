@@ -4,7 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use jobsrey\ols\widgets\ProductViewZoomBox;
 use jobsrey\ols\assets\FontAwesome;
+use johnitvn\ajaxcrud\CrudAsset;
+use yii\bootstrap\Modal;
 
+
+CrudAsset::register($this);
 FontAwesome::register($this);
 
 /* @var $this yii\web\View */
@@ -13,7 +17,20 @@ FontAwesome::register($this);
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Produks'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+Modal::begin([
+    'options' => [
+        'class'    => 'modal modal-success fade',
+        'id'       => 'ajaxCrudModal',
+        'tabindex' => false,
+    ],
+    'footer'  => '',
+]);
+Modal::end();
+
 ?>
+
+
 
 <style type="text/css">
     .product-box-content {
@@ -98,9 +115,15 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="">
-                <a href="#" class="btn btn-success col-md-12">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?= Yii::t('app','Add to cart');?>
-                </a>
+                <?= Html::a('<i class="fa fa-shopping-cart" aria-hidden="true"></i> '.Yii::t('app','Add to cart'), [
+                    'order','id'=>md5($model->id),
+                    ],
+                    [
+                        'role'=>'modal-remote',
+                        'data-modal-size'=>'large',
+                        'title'=> 'Create new Asset Class',
+                        'class'=>'btn btn-success col-md-12'
+                ])?>
             </div>
             
         </div>
