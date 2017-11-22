@@ -50,7 +50,7 @@ class ProductViewZoomBox extends \yii\base\Widget
         	<div class="container">
 				<div class="">
 	                <ul id="glasscase" class="gc-start">
-	                    <li><img src="http://www.pngall.com/wp-content/uploads/2016/03/Smartphone-Transparent.png" alt="Text" data-gc-caption="Your caption text" /></li>
+	                    <li><img src="http://www.pngall.com/wp-content/uploads/2016/03/Smartphone-Transparent.png" alt="Text" data-gc-caption="Handphone Baru 1" /></li>
 	                    <li><img src="https://amanandandroid.files.wordpress.com/2013/01/samsung_galaxy_s_ii_plus.png" alt="Text" /></li>
 	                </ul>
 	            </div>

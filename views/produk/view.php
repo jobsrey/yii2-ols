@@ -2,8 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use amilna\elevatezoom\ElevateZoom;
 use jobsrey\ols\widgets\ProductViewZoomBox;
+use jobsrey\ols\assets\FontAwesome;
+
+FontAwesome::register($this);
+
 /* @var $this yii\web\View */
 /* @var $model jobsrey\ols\models\Produk */
 
@@ -26,10 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
         float: left;
         width: 100%;
     }
+    .product-pricetag {
+        color: #f44336;
+        margin: 0;
+        padding: 10px 0;
+        font-size: 1.6em;
+    }
+    .product-pricelastupdated {
+        color: #999;
+        font-size: 10px;
+    }
 </style>
 
 <div class="produk-view">
     <div class="col-md-12">
+        <h1><?= Html::encode($this->title) ?></h1>
     </div>
 
     <div class="row">
@@ -38,35 +52,37 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="col-md-6">
-            <h1><?= Html::encode($this->title) ?></h1>
 
+            <?= $this->render('_menuViewProduk',['model'=>$model]);?>
+            <table class="table" style="font-size: 12px;">
+                <tr>
+                    <td><i class="glyphicon glyphicon-eye-open"></i> <?= Yii::t('app','See');?></td>
+                    <td>80</td>
+                    <td><i class="glyphicon glyphicon-briefcase"></i> <?= Yii::t('app','Weight');?></td>
+                    <td>300gr</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-shopping-basket" aria-hidden="true"></i> <?= Yii::t('app','Sold');?></td>
+                    <td>0</td>
+                    <td><i class="fa fa-truck" aria-hidden="true"></i> <?= Yii::t('app','Insurance');?></td>
+                    <td>Optional</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-tag" aria-hidden="true"></i> <?= Yii::t('app','Condition');?></td>
+                    <td>New</td>
+                    <td><i class="fa fa-truck" aria-hidden="true"></i> <?= Yii::t('app','Booking Min');?></td>
+                    <td>1</td>
+                </tr>
+            </table>
+
+            <h5><b><?= Yii::t('app','Product description');?></b></h5>
             <p>
-                <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                        'method' => 'post',
-                    ],
-                ]) ?>
+                <?= $model->description;?>
             </p>
-
-            <?= DetailView::widget([
-                'model' => $model,
-                'attributes' => [
-                    'id',
-                    'name',
-                    'price',
-                    'qty',
-                    'description:ntext',
-                    'is_new',
-                ],
-            ]) ?>
 
         </div>
 
         <div class="col-md-3">
-
             <!-- Detail harga -->
             <div class="product-box">
                 <div class="product-box-content">
@@ -75,11 +91,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         <span class="bold" itemprop="price">100.000</span>
                     </div>
                     <div class="text-center">
-                        <small class="product-pricelastupdated"><i>Perubahan Harga Terakhir: 06-08-2017, 00:06 WIB</i></small>
+                        <small class="product-pricelastupdated"><i><?= Yii::t('app','Last Price Changes')?>: 06-08-2017, 00:06 WIB</i></small>
                     </div>
                     <input type="hidden" id="product_price_int" value="100000">
                 </div>
             </div>
+
+            <div class="">
+                <a href="#" class="btn btn-success col-md-12">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <?= Yii::t('app','Add to cart');?>
+                </a>
+            </div>
+            
         </div>
 
     </div>
