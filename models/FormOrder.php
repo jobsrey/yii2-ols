@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace jobsrey\ols\models;
 
 use Yii;
 use yii\base\Model;
@@ -13,11 +13,15 @@ use yii\base\Model;
  */
 class FormOrder extends Model
 {
-    public $username;
-    public $password;
-    public $rememberMe = true;
-
-    private $_user = false;
+    public $product_id; //id produk
+    public $qty; //jumlah barang yang di beli
+    public $price; // harga
+    public $delivery_courier; //kurir pengiriman
+    public $msg_to_seller; //pesan untuk penjual
+    public $delivery_package; //jenis paket pengiriman (YES REguler)
+    public $address_id; //id alamat
+    public $user_id; //id user
+    public $is_user_insurance; //menggunakan asuransi
 
 
     /**
@@ -27,55 +31,25 @@ class FormOrder extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['product_id', 'qty','delivery_courier','delivery_package'], 'required'],
             // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            [['is_user_insurance'], 'boolean'],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+
+            [['msg_to_seller'],'safe'],
         ];
     }
 
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
-    public function validatePassword($attribute, $params)
+    public function attributeLabels()
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
-            }
-        }
+        return [
+            'product_id' => Yii::t('app', 'ID'),
+            'qty' => Yii::t('app', 'Qty'),
+            'delivery_courier' => Yii::t('app', 'Delivery courier'),
+            'delivery_package' => Yii::t('app', 'Delivery package'),
+            'is_user_insurance' => Yii::t('app', 'Insurance'),
+            'msg_to_seller' => Yii::t('app', 'Note to seller'),
+        ];
     }
 
-    /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
-     */
-    public function login()
-    {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-        }
-        return false;
-    }
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    public function getUser()
-    {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
-
-        return $this->_user;
-    }
 }
