@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use amilna\elevatezoom\ElevateZoom;
-
+use jobsrey\ols\widgets\ProductViewZoomBox;
 /* @var $this yii\web\View */
 /* @var $model jobsrey\ols\models\Produk */
 
@@ -16,44 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="col-md-3">
-        <?php
-            $images = [
-                [
-                    'image'=>'https://images-eu.ssl-images-amazon.com/images/I/71Bveild+AL.AC_AA200.jpg',
-                    'small'=>'https://images-eu.ssl-images-amazon.com/images/I/71Bveild+AL.AC_AA200.jpg',
-                    'medium'=>'https://images-eu.ssl-images-amazon.com/images/I/71Bveild+AL.AC_AA200.jpg',
-                ],
-                    // 'https://cdn.shopclues.com/images/thumbnails/74207/320/320/102011644punchers71497426443.jpg',
-                    // 'https://images-eu.ssl-images-amazon.com/images/I/916DWoHhEAL.AC_AA200.jpg',
-                    // 'https://assets.mspcdn.net/t_c-desktop-normal,f_auto,q_auto,d_c:noimage.jpg/c/8808-62-4.jpg',
-                ];
-
-            echo ElevateZoom::widget([
-                'images'=>$images,
-                'baseUrl'=>'',
-                'smallPrefix'=>'/.thumbs',
-                'mediumPrefix'=>'',
-            ]);
-
-        /* //or another example set 'images' with 3 dimension array:
-        $images'= [
-            [   
-                'image'=>'an url of zoom image 1',
-                'small'=>'an url of gallery display image 1',
-                'medium'=>'an url of basic display image 1'
-            ],
-            [   
-                'image'=>'an url of zoom image n',
-                'small'=>'an url of gallery display image n',
-                'medium'=>'an url of basic display image n'
-            ],
-        ];
-
-        echo ElevateZoom::widget([
-            'images'=>$images,      
-        ]);
-        */
-        ?>
+        <?= ProductViewZoomBox::widget(); ?>
     </div>
 
     <div class="col-md-9">
