@@ -38,7 +38,8 @@ return  [
             ],
             'pluginEvents' => [
                 'editableSuccess'=> "function(val,form, data, jqXHR) { 
-                    $.pjax.reload({container:'#crud-checkout'});
+                    // $.pjax.reload({container:'#crud-checkout'});
+                    location.reload();
                 }",
             ],
         ],

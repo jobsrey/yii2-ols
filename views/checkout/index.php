@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\bootstrap\Modal;
+use yii\widgets\ActiveForm;
 
 $this->title = Yii::t('app','Checkout');
 $this->params['breadcrumbs'][] = $this->title;
@@ -78,5 +79,37 @@ Modal::end();
 
 	<!-- untuk alamat -->
 	<div class="row">
+		<div class="well col-md-9">
+			<div class="transaction-card col-md-12">
+			   	<div class="row transaction-card-body">
+			      	<div class="col-sm-8">
+				        <p>
+				         	<b><?= Yii::t('app','You do not have a shipping address yet');?>.</b>
+				         	<br data-reactid=".0.1.0.0.0.0.1">
+				         	<span data-reactid=".0.1.0.0.0.0.2">
+				         		Masukkan alamat pengiriman atau
+				         	</span>
+				         	<a href="/user/login?redirect=%2Fcart" data-reactid=".0.1.0.0.0.0.3">
+				         		masuk dengan akunmu
+				         	</a>
+				         	<span data-reactid=".0.1.0.0.0.0.4"></span>
+				         	<br class="hidden-xs" data-reactid=".0.1.0.0.0.0.5">
+				         	<span data-reactid=".0.1.0.0.0.0.6">
+				         	jika sudah pernah berbelanja sebelumnya</span>
+				        </p>
+			      	</div>
+			      	<div class="col-sm-4 text-right" data-reactid=".0.1.0.0.1">
+			         	<span class="hidden-xs" data-reactid=".0.1.0.0.1.0"><br data-reactid=".0.1.0.0.1.0.0"></span>
+			         	<p data-reactid=".0.1.0.0.1.1">
+				         	<?= Html::a(Yii::t('app','Enter the shipping address'), ['user-address/add-address'],
+                    			[
+                    				'role'=>'modal-remote',
+                    				'title'=> 'Create new Adree',
+                    				'class'=>'btn btn-primary']);?>				
+        				</p>
+			      	</div>
+			   	</div>
+			</div>
+		</div>
 	</div>
 </div>

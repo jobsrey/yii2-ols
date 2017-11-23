@@ -18,6 +18,7 @@
         "kartik-v/yii2-widget-fileinput": "@dev",
         "kartik-v/yii2-editable": "*",
         "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-checkbox-x": "*",
         "creocoder/yii2-taggable": "~2.0",
         "2amigos/yii2-tinymce-widget" : "~1.1",
         "amilna/yii2-elevatezoom" : "*"

@@ -72,37 +72,49 @@ class FormOrder extends Model
 
     /*mengambil data province di rajaongkir.com*/
     public function ambilProvice(){
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "key: 2e1133159f82d8cde07efe55272489ad"
-            ),
-        ));
+        $cacing = Yii::$app->cache; //add library cache
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+        $dataProvince = $cacing->get('dataProvince'); // buat mbedain aja
 
-        curl_close($curl);
+        if($dataProvince === false){
+            $curl = curl_init();
 
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            $result = json_decode($response,true);
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "key: 2e1133159f82d8cde07efe55272489ad"
+                ),
+            ));
 
-            $result = $result['rajaongkir']['results'];
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
 
-            $result = ArrayHelper::map($result, 'province_id', 'province');
+            curl_close($curl);
 
-            return $result;
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            } else {
+                $result = json_decode($response,true);
+
+                $result = $result['rajaongkir']['results'];
+
+                $result = ArrayHelper::map($result, 'province_id', 'province');
+
+                $cacing->set('dataProvince', $result, 604800); // di cache 300 detik
+
+                $dataProvince = $cacing->get('dataProvince');
+
+            }
         }
+
+        return $dataProvince;
     }
 
     /*mengambil data city di rajaongkir.com*/

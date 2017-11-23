@@ -1,9 +1,9 @@
 <div class="kv-detail-content">
-    <h3>Book Details <small>The Great Gatsby</small></h3>
+    <h3><?= $model->name;?></h3>
     <div class="row">
         <div class="col-sm-2">
             <div class="img-thumbnail img-rounded text-center">
-                <img src="/images/book.jpg" style="padding:2px;width:100%">
+                <img src="http://demos.krajee.com/images/book.jpg" style="padding:2px;width:100%">
                 <div class="small text-muted">Published: 2016-04-01</div>
             </div>
         </div>
