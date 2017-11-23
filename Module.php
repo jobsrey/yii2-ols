@@ -12,6 +12,10 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'jobsrey\ols\controllers';
 
+    public $urlRules = [
+        'ols/<controller:.+>/<action:.+>/<slug:.+>' => '/ols/<controller>/<action>',
+    ];
+
     /**
      * @inheritdoc
      */

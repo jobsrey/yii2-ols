@@ -10,7 +10,7 @@ use yii\helpers\HtmlPurifier;
         <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
         <div class="caption">
             <h4 class="group inner list-group-item-heading">
-                <?= Html::a($model->name,['produk/view','id'=>md5($model->id)]) ;?>    
+                <?= Html::a($model->name,['produk/view','slug'=>$model->slug]) ;?>    
             </h4>
             <p class="group inner list-group-item-text">
                 Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,

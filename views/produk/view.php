@@ -116,7 +116,7 @@ Modal::end();
 
             <div class="">
                 <?= Html::a('<i class="fa fa-shopping-cart" aria-hidden="true"></i> '.Yii::t('app','Add to cart'), [
-                    'order','id'=>md5($model->id),
+                    'order','slug'=>$model->slug,
                     ],
                     [
                         'role'=>'modal-remote',

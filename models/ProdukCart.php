@@ -4,7 +4,8 @@ namespace jobsrey\ols\models;
 
 use Yii;
 use creocoder\taggable\TaggableBehavior;
-use yii\behaviors\SluggableBehavior;
+use yz\shoppingcart\CartPositionInterface;
+use yz\shoppingcart\CartPositionTrait;
 /**
  * This is the model class for table "shop_produk".
  *
@@ -15,12 +16,14 @@ use yii\behaviors\SluggableBehavior;
  * @property string $description
  * @property int $is_new
  */
-class Produk extends \yii\db\ActiveRecord
+class ProdukCart extends \yii\db\ActiveRecord implements CartPositionInterface
 {
+
+    use CartPositionTrait;
 
     public $tagValues; //for tag widget string
     public $picture;
-
+    // public $quantity;
 
     /**
      * @inheritdoc
@@ -39,11 +42,6 @@ class Produk extends \yii\db\ActiveRecord
                 // 'tagRelation' => 'tags',
                 // 'tagValueAttribute' => 'name',
                 // 'tagFrequencyAttribute' => 'frequency',
-            ],
-            [
-                'class' => SluggableBehavior::className(),
-                'attribute' => 'name',
-                'slugAttribute' => 'slug',
             ],
         ];
     }
@@ -74,6 +72,7 @@ class Produk extends \yii\db\ActiveRecord
         return [
             [['name', 'price', 'qty'], 'required'],
             [['price'], 'number'],
+            [['quantity'],'integer'],
             [['qty', 'is_new','post_status'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 255],
@@ -97,4 +96,17 @@ class Produk extends \yii\db\ActiveRecord
             'post_status' => Yii::t('app','Post Status'),
         ];
     }
+
+    /*shoping cart extension*/
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /*shoping cart extension*/
+    public function getId()
+    {
+        return $this->id;
+    }
+
 }
