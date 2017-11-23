@@ -37,6 +37,7 @@ class FormOrder extends Model
             [['product_id', 'qty','delivery_courier','delivery_package'], 'required'],
             // rememberMe must be a boolean value
             [['is_user_insurance'], 'boolean'],
+            [['qty'],'integer'],
             // password is validated by validatePassword()
 
             [['msg_to_seller'],'safe'],
@@ -56,6 +57,18 @@ class FormOrder extends Model
             'city_id' => Yii::t('app','City'),
         ];
     }
+
+
+    //scenario
+    public function scenarios(){
+        $parent = parent::scenarios();
+        $parent['orderForm'] = [
+            'qty','product_id','msg_to_seller',
+        ];
+
+        return $parent;
+    }
+
 
     /*mengambil data province di rajaongkir.com*/
     public function ambilProvice(){

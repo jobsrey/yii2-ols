@@ -31,7 +31,9 @@ class ProdukController extends \yii\web\Controller
         $model = $this->findProduk($id);  
         $modelForm = new FormOrder();
 
-        $dataProvince = $modelForm->ambilProvice();
+        // $dataProvince = $modelForm->ambilProvice();
+
+        $modelForm->scenario = 'orderForm';
 
         if($request->isAjax){
             /*
@@ -45,30 +47,28 @@ class ProdukController extends \yii\web\Controller
                     'content'=>$this->renderAjax('order', [
                         'model' => $model,
                         'modelForm' => $modelForm,
-                        'dataProvince' => $dataProvince,
+                        // 'dataProvince' => $dataProvince,
                     ]),
                     'footer'=> Html::button('<i class="fa fa-shopping-cart" aria-hidden="true"></i> '.Yii::t("app",'Add to cart'),['class'=>'btn btn-primary col-md-12','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($modelForm->load($request->post()) && $modelForm->validate()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
+                    // 'forceReload'=>'#crud-datatable-pjax',
                     'title'=> Yii::t('app','Successfully'),
                     'size' => 'normal',
                     'content'=>'<span class="text-success">'.Yii::t('app','You have successfully added a shopping cart').'</span>',
-                    'footer'=> Html::button(Yii::t("app","Close"),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a(Yii::t("app",'Create More'),['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button(Yii::t("app","Close"),['class'=>'btn btn-danger col-md-12','data-dismiss'=>"modal"])
         
-                ];         
+                ];
             }else{
-
                 return [
                     'title'=> Yii::t("app","Order"),
                     'size' => 'normal',
                     'content'=>$this->renderAjax('order', [
                         'model' => $model,
                         'modelForm' => $modelForm,
-                        'dataProvince' => $dataProvince,
+                        // 'dataProvince' => $dataProvince,
                     ]),
                     'footer'=> Html::button('<i class="fa fa-shopping-cart" aria-hidden="true"></i> '.Yii::t("app",'Add to cart'),['class'=>'btn btn-primary col-md-12','type'=>"submit"])
         
