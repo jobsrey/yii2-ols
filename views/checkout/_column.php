@@ -1,9 +1,12 @@
 <?php
 use kartik\grid\GridView;
 use yz\shoppingcart\ShoppingCart;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 return  [
     ['class' => 'kartik\grid\SerialColumn'],
+    ['class' => 'kartik\grid\CheckboxColumn'],
     [
         'class'=>'kartik\grid\ExpandRowColumn',
         'width'=>'50px',
@@ -49,7 +52,6 @@ return  [
         // 'format'=>['decimal', 2],
         'pageSummary'=>'Total'
     ],
-
     [
         'class'=>'\kartik\grid\DataColumn',
         'label'=>'PRICE',
@@ -59,6 +61,36 @@ return  [
         'value'                 => function ($model, $key, $index, $widget) { 
             return $model->getCost();
         },
+    ],
+    [
+        'class' => 'kartik\grid\ActionColumn',
+        'dropdown' => false,
+        'vAlign'=>'middle',
+        'template'          => '{delete}',
+        'urlCreator' => function($action, $model, $key, $index) { 
+                return Url::to([$action,'id'=>$key]);
+        },
+        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
+                          'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                          'data-request-method'=>'post',
+                          'data-toggle'=>'tooltip',
+                          'data-confirm-title'=>'Are you sure?',
+                          'data-confirm-message'=>'Are you sure want to delete this item'], 
+        'buttons' => [
+                'delete' => function ($url,$model,$key) {
+                    return Html::a('<i class="glyphicon glyphicon-remove-sign"></i>',['produk/delete-order','id'=>md5($model->id)],[
+                        'title'                => Yii::t('app', "Delete"), 
+                        'role'                 => 'modal-remote',
+                        'data-confirm'         => false, 
+                        'data-method'          => false,
+                        'data-request-method'  => 'post',
+                        'data-confirm-title'   => Yii::t('app', "Are you sure?"),
+                        'data-confirm-message' => Yii::t('app', "Are you sure want to delete this item")
+                    ]);
+                },
+        ]
     ],
     /*[
         'class' => 'kartik\grid\EditableColumn',
@@ -95,5 +127,4 @@ return  [
         'updateOptions'=>['title'=>$updateMsg, 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['title'=>$deleteMsg, 'data-toggle'=>'tooltip'], 
     ],*/
-    ['class' => 'kartik\grid\CheckboxColumn']
 ];

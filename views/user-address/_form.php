@@ -49,6 +49,13 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'is_default')->textInput() ?>
 
+    <?php
+        echo $form->field($model, 'is_default', [
+            'template' => '{input}{label}{error}{hint}',
+            'labelOptions' => ['class' => 'cbx-label']
+        ])->widget(CheckboxX::classname(), ['autoLabel'=>false]);
+    ?>
+
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">

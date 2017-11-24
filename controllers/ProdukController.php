@@ -60,7 +60,7 @@ class ProdukController extends \yii\web\Controller
 
                 $produkCart = ProdukCart::findOne($model->id);
                 if ($produkCart) {
-                    $shopping->put($produkCart, 1);
+                    $shopping->put($produkCart, $modelForm->qty);
                     return [
                         // 'forceReload'=>'#crud-datatable-pjax',
                         'title'=> Yii::t('app','Successfully'),
@@ -100,10 +100,21 @@ class ProdukController extends \yii\web\Controller
 
     }
 
-    public function actionCoba(){
-        $shopping = new ShoppingCart();
-        print_r($shopping->getPositions());
-        die();
+    public function actionDeleteOrder($id){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if($request->isAjax) {
+            $cart = new ShoppingCart();
+            $model = $this->findProdukCartById($id);
+            $cart->remove($model);
+            return [
+                    'forceClose'  => true, 
+                    'forceReload' => '#crud-checkout',
+            ]; 
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
     }
 
     protected function findProduk($slug){
@@ -112,7 +123,14 @@ class ProdukController extends \yii\web\Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
 
+    protected function findProdukCartById($id){
+        if (($model = ProdukCart::findOne(['md5(id)'=>$id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
 }

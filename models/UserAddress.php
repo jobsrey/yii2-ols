@@ -56,7 +56,7 @@ class UserAddress extends \yii\db\ActiveRecord
             'districts_id' => Yii::t('app', 'Districts'),
             'postal_code' => Yii::t('app', 'Postal Code'),
             'phone_number' => Yii::t('app', 'Phone Number'),
-            'is_default' => Yii::t('app', 'Is Default'),
+            'is_default' => Yii::t('app', 'Save as fixed address'),
             'user_id' => Yii::t('app', 'User'),
         ];
     }
