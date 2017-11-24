@@ -20,6 +20,9 @@ use Yii;
  */
 class UserAddress extends \yii\db\ActiveRecord
 {
+
+    public $selectPreset; //untuk memilih alamat
+
     /**
      * @inheritdoc
      */

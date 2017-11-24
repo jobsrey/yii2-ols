@@ -302,9 +302,9 @@ class UserAddressController extends Controller
 
 
     //fungsi saat user ingin mengganti alamat yang akan di gunakan saat checkout
-    public function actionUseAddress(){
+    public function actionUseAddress($id){
         $request = Yii::$app->request;
-        $model = new UserAddress();  
+        $model = $this->findModel($id);  
 
         if($request->isAjax){
             /*
@@ -313,7 +313,7 @@ class UserAddressController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> Yii::t("app","Add New Address"),
+                    'title'=> Yii::t("app","Change Address"),
                     'content'=>$this->renderAjax('_formReadOnly', [
                         'model' => $model,
                     ]),
@@ -324,7 +324,7 @@ class UserAddressController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> Yii::t("app","Add New Address"),
+                    'title'=> Yii::t("app","Change Address"),
                     'content'=>'<span class="text-success">Create UserAddress success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -332,7 +332,7 @@ class UserAddressController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> Yii::t("app","Add New Address"),
+                    'title'=> Yii::t("app","Change Address"),
                     'content'=>$this->renderAjax('_formReadOnly', [
                         'model' => $model,
                     ]),
@@ -355,7 +355,7 @@ class UserAddressController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = UserAddress::findOne($id)) !== null) {
+        if (($model = UserAddress::findOne(['md5(id)'=>$id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -374,7 +374,7 @@ class UserAddressController extends Controller
 
         $model = new UserAddress();
 
-        for ($i=0; $i < 500; $i++) { 
+        for ($i=0; $i < 10; $i++) { 
             $model->isNewRecord = true;
             $model->id          = null;
             $model->recipient_name          = $faker->name;
@@ -392,6 +392,28 @@ class UserAddressController extends Controller
                 die();
             }
         }
+    }
+
+    //ambil preset address
+    public function actionGetPreset(){
+
+        $request = Yii::$app->request;
+        if($request->isAjax) {
+            if($request->post()){
+                if(isset($_POST['PresetName'])){
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    $model = UserAddress::findOne($_POST['PresetName']);
+
+                    if($model !== null){
+                        return $model;
+                    }
+                }
+            }
+
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+
     }
 
 }

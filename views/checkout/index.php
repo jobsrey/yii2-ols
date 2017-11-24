@@ -163,7 +163,7 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
 			         	<span><?= $defaultAddress->address ;?> Sukmajaya - Depok. Jawa Barat - 16415.</span></p>
 			      	</div>
 			      	<div class="col-sm-3 col-xs-12">
-			      		<?= Html::a(Yii::t('app','Change Address'), ['user-address/use-address'],
+			      		<?= Html::a(Yii::t('app','Change Address'), ['user-address/use-address','id'=>md5($defaultAddress->id)],
                     			[
                     				'role'=>'modal-remote',
                     				'title'=> 'Change Address',
