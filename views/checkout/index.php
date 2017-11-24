@@ -6,6 +6,10 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\bootstrap\Modal;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use yii\web\JsExpression;
+use yii\helpers\Json;
+
 
 $this->title = Yii::t('app','Checkout');
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,6 +25,11 @@ Modal::begin([
 Modal::end();
 
 /* @var $this yii\web\View */
+
+
+/*register select2 javascript ajax custom*/
+$this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
+
 ?>
 <h1>Checkout</h1>
 
@@ -77,30 +86,59 @@ Modal::end();
 		</div>
 	</div>
 
-	<!-- untuk alamat -->
+	
 	<div class="row">
+		<div class="col-md-9">
+			<?php
+				/*echo Select2::widget([
+				    'name' => 'kv-repo-template',
+				    'value' => '14719648',
+				    'initValueText' => 'kartik-v/yii2-widgets',
+				    'options' => ['placeholder' => 'Search for a repo ...'],
+				    'pluginOptions' => [
+				        'allowClear' => true,
+				        'minimumInputLength' => 1,
+				        'ajax' => [
+				            'url' => "https://api.github.com/search/repositories",
+				            'dataType' => 'json',
+				            'delay' => 250,
+				            'data' => new JsExpression('function(params) { return {q:params.term, page: params.page}; }'),
+				            'processResults' => new JsExpression('resultData'),
+				            'cache' => true
+				        ],
+				        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+				        'templateResult' => new JsExpression('formatRepo'),
+				        'templateSelection' => new JsExpression('formatRepoSelection'),
+				    ],
+				]);*/
+			?>
+		</div>
+
+		<!-- untuk alamat -->
+		<?php \yii\widgets\Pjax::begin(['id'=>'checkout-address']); ?>
+		<?php if($defaultAddress == null){ ?>
 		<div class="well col-md-9">
 			<div class="transaction-card col-md-12">
 			   	<div class="row transaction-card-body">
 			      	<div class="col-sm-8">
 				        <p>
 				         	<b><?= Yii::t('app','You do not have a shipping address yet');?>.</b>
-				         	<br data-reactid=".0.1.0.0.0.0.1">
-				         	<span data-reactid=".0.1.0.0.0.0.2">
+				         	<br/>
+				         	<span>
 				         		Masukkan alamat pengiriman atau
 				         	</span>
-				         	<a href="/user/login?redirect=%2Fcart" data-reactid=".0.1.0.0.0.0.3">
+				         	<a href="/user/login?redirect=%2Fcart">
 				         		masuk dengan akunmu
 				         	</a>
-				         	<span data-reactid=".0.1.0.0.0.0.4"></span>
-				         	<br class="hidden-xs" data-reactid=".0.1.0.0.0.0.5">
-				         	<span data-reactid=".0.1.0.0.0.0.6">
+				         	<span></span>
+				         	<br class="hidden-xs">
+				         	<span>
 				         	jika sudah pernah berbelanja sebelumnya</span>
 				        </p>
 			      	</div>
-			      	<div class="col-sm-4 text-right" data-reactid=".0.1.0.0.1">
-			         	<span class="hidden-xs" data-reactid=".0.1.0.0.1.0"><br data-reactid=".0.1.0.0.1.0.0"></span>
-			         	<p data-reactid=".0.1.0.0.1.1">
+			      	<div class="col-sm-4 text-right">
+			         	<span class="hidden-xs"><br></span>
+			         	<p>
 				         	<?= Html::a(Yii::t('app','Enter the shipping address'), ['user-address/add-address'],
                     			[
                     				'role'=>'modal-remote',
@@ -111,5 +149,31 @@ Modal::end();
 			   	</div>
 			</div>
 		</div>
+		<?php } else { ?>
+		<div class="well col-md-9">
+			<div class="transaction-card col-md-9">
+			   <div class="row transaction-card-body">
+			      	<div class="col-sm-3 col-xs-5">
+			         	<p><b>Penerima</b><br/>
+			         	<span><?=$defaultAddress->recipient_name ;?></span>
+			         	<br><span><?=$defaultAddress->phone_number ;?></span></p>
+			      	</div>
+			      	<div class="col-sm-6 col-xs-7">
+			         	<p><b>Alamat Pengiriman</b><br>
+			         	<span><?= $defaultAddress->address ;?> Sukmajaya - Depok. Jawa Barat - 16415.</span></p>
+			      	</div>
+			      	<div class="col-sm-3 col-xs-12">
+			      		<?= Html::a(Yii::t('app','Change Address'), ['user-address/use-address'],
+                    			[
+                    				'role'=>'modal-remote',
+                    				'title'=> 'Change Address',
+                    				'class'=>'btn btn-primary']);?>	
+			      	</div>
+			   	</div>
+			</div>
+		</div>
+		<?php } ?>
+		<?php \yii\widgets\Pjax::end(); ?>
+
 	</div>
 </div>

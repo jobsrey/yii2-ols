@@ -147,7 +147,5 @@ class AdminProdukController extends Controller
                 die();
             }
         }
-
-
     }
 }

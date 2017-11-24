@@ -8,36 +8,12 @@ use yz\shoppingcart\ShoppingCart;
 use jobsrey\ols\models\ProdukCart;
 use yii\helpers\ArrayHelper;
 use kartik\grid\EditableColumnAction;
+use yii\web\NotFoundHttpException;
+use jobsrey\ols\models\UserAddress;
 
 class CheckoutController extends \yii\web\Controller
 {
 
-	/*public function actions()
-    {
-       return ArrayHelper::merge(parent::actions(), [
-           'editqty' => [                                       // identifier for your editable column action
-               'class' => EditableColumnAction::className(),     // action class name
-               'modelClass' => ProdukCart::className(),                // the model for the record being edited
-               'outputValue' => function ($model, $attribute, $key, $index) {
-                    print_r($model);
-                    die();
-                    // $cart = new ShoppingCart();
-                    // $cart->update($key,(int)$model->$attribute);
-                    return (int) $quantity = $model->$attribute;      // return any custom output value if desired
-               },
-               'outputMessage' => function($model, $attribute, $key, $index) {
-                     return '';                                  // any custom error to return after model save
-               },
-               'showModelErrors' => true,                        // show model validation errors after save
-               'errorOptions' => ['header' => '']                // error summary HTML options
-               // 'postOnly' => true,
-               // 'ajaxOnly' => true,
-               // 'findModel' => function($id, $action) {},
-               // 'checkAccess' => function($action, $model) {}
-           ]
-       ]);
-    }
-*/
     public function actionIndex()
     {
 
@@ -55,12 +31,11 @@ class CheckoutController extends \yii\web\Controller
 		]);
 
 
-        return $this->render('index',['dataProvider'=>$dataProvider]);
+        return $this->render('index',['dataProvider'=>$dataProvider,'defaultAddress'=>$this->callDefaultAddress()]);
     }
 
     public function actionEditqty(){
     	$model = new ProdukCart(); // your model can be loaded here
-
     	$cart = new ShoppingCart();
     
 	    // Check if there is an Editable ajax request
@@ -98,6 +73,14 @@ class CheckoutController extends \yii\web\Controller
 	    
 	    // Else return to rendering a normal view
 	    // return $this->render('view', ['model'=>$model]);
+    }
+
+    protected function callDefaultAddress(){
+    	if (($model = UserAddress::findOne(['is_default'=>1])) !== null) {
+            return $model;
+        }
+
+        return null;
     }
 
 

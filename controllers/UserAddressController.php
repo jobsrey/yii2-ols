@@ -300,6 +300,52 @@ class UserAddressController extends Controller
        
     }
 
+
+    //fungsi saat user ingin mengganti alamat yang akan di gunakan saat checkout
+    public function actionUseAddress(){
+        $request = Yii::$app->request;
+        $model = new UserAddress();  
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> Yii::t("app","Add New Address"),
+                    'content'=>$this->renderAjax('_formReadOnly', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> Yii::t("app","Add New Address"),
+                    'content'=>'<span class="text-success">Create UserAddress success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];         
+            }else{           
+                return [
+                    'title'=> Yii::t("app","Add New Address"),
+                    'content'=>$this->renderAjax('_formReadOnly', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
     /**
      * Finds the UserAddress model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -315,4 +361,37 @@ class UserAddressController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    public function actionAddressFaker(){
+        $faker = new \Faker\Generator();
+        $faker->addProvider(new \Faker\Provider\id_ID\Person($faker));
+        $faker->addProvider(new \Faker\Provider\id_ID\Address($faker));
+        $faker->addProvider(new \Faker\Provider\id_ID\PhoneNumber($faker));
+        $faker->addProvider(new \Faker\Provider\id_ID\Company($faker));
+        $faker->addProvider(new \Faker\Provider\Lorem($faker));
+        $faker->addProvider(new \Faker\Provider\id_ID\Internet($faker));
+
+        $model = new UserAddress();
+
+        for ($i=0; $i < 500; $i++) { 
+            $model->isNewRecord = true;
+            $model->id          = null;
+            $model->recipient_name          = $faker->name;
+            $model->address                 = $faker->address;
+            $model->province_id             = rand(1,32);
+            $model->city_id                 = rand(1,500);
+            $model->phone_number            = (string)rand(10000000,99999999);
+            $model->districts_id            = rand(1,1000);
+            $model->postal_code             = rand(10000,99999);
+            $model->is_default              = 0;
+            $model->user_id                 = 0;
+            // $model->
+            if(!$model->save()){
+                print_r($model->errors);
+                die();
+            }
+        }
+    }
+
 }
