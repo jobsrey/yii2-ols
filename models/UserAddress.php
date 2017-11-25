@@ -43,6 +43,7 @@ class UserAddress extends \yii\db\ActiveRecord
             [['recipient_name'], 'string', 'max' => 255],
             [['phone_number'], 'string', 'max' => 50],
             [['is_default'],'boolean'],
+            [['selectPreset'],'safe'],
         ];
     }
 
@@ -64,6 +65,16 @@ class UserAddress extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User'),
             'selectPreset' => Yii::t('app','Select Address'),
         ];
+    }
+
+    public function scenarios(){
+        $parent = parent::scenarios();
+
+        $parent['useAddressInChoseCheckout'] = [
+            'selectPreset'
+        ];
+
+        return $parent;
     }
 
     public function ambilProvice(){

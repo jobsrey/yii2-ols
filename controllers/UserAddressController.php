@@ -305,7 +305,9 @@ class UserAddressController extends Controller
     public function actionUseAddress($id){
         $request = Yii::$app->request;
         $model = $this->findModel($id);  
+        $session = Yii::$app->session;
 
+        $model->scenario = 'useAddressInChoseCheckout';
 
         if($request->isAjax){
             /*
@@ -322,13 +324,15 @@ class UserAddressController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+
+                $session->set('useAddressCheckOut',$model->selectPreset);
+
                 return [
                     'forceReload'=>'#checkout-address',
                     'title'=> Yii::t("app","Choses Address"),
-                    'content'=>'<span class="text-success">Create UserAddress success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'content'=>'<span class="text-success">Success to set address</span>',
+                    'footer'=> Html::button(Yii::t('app','Close'),['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
         
                 ];         
             }else{           
@@ -342,6 +346,29 @@ class UserAddressController extends Controller
         
                 ];         
             }
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionUseThisAddress($id){
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            $model = $this->findModel($id);
+
+            $session->set('useAddressCheckOut',$model->id);
+
+            return [
+                'forceReload'=>'#checkout-address',
+                'forceClose'=>true,
+            ];
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
@@ -441,11 +468,14 @@ class UserAddressController extends Controller
                 return [
                     'forceReload'=>'#checkout-address',
                     'title'=> "Update Address Success",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'content'=>'<span class="text-success">Success to update address</span>',
+                    'footer'=> Html::a(Yii::t('app','Back to list Address'),[
+                            'user-address/use-address','id'=>md5($model->id)
+                            ],[
+                                'class'=>'btn btn-danger pull-left',
+                                'role'=>'modal-remote',
+                            ]).
+                            Html::a(Yii::t('app','Use this address'),['user-address/use-this-address','id'=>md5($model->id)],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [

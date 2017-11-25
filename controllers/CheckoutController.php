@@ -76,9 +76,26 @@ class CheckoutController extends \yii\web\Controller
     }
 
     protected function callDefaultAddress(){
-    	if (($model = UserAddress::findOne(['is_default'=>1])) !== null) {
-            return $model;
-        }
+    	$session = Yii::$app->session;
+
+
+    	$getIdAddress = $session->get('useAddressCheckOut');
+
+    	if($getIdAddress === false){
+    		$defaultSession = null;
+    	} else {
+    		$defaultSession = $getIdAddress;
+    	} 
+
+    	if($defaultSession == null){
+	    	if (($model = UserAddress::findOne(['is_default'=>1])) !== null) {
+	            return $model;
+	        }
+	    } else {
+	    	if (($model = UserAddress::findOne($defaultSession)) !== null) {
+	            return $model;
+	        }
+	    }
 
         return null;
     }
