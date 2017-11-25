@@ -10,7 +10,7 @@ use yii\bootstrap\Nav;
     'items' => [
         [
             'label' => Yii::t('app', 'Product Information'),
-            'url' => ['produk/view','id'=>md5($model->id)],
+            'url' => ['produk/view','slug'=>$model->slug],
         ],
         [
             'label' => Yii::t('app', 'Review').' (0)',

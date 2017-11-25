@@ -88,32 +88,6 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
 
 	
 	<div class="row">
-		<div class="col-md-9">
-			<?php
-				/*echo Select2::widget([
-				    'name' => 'kv-repo-template',
-				    'value' => '14719648',
-				    'initValueText' => 'kartik-v/yii2-widgets',
-				    'options' => ['placeholder' => 'Search for a repo ...'],
-				    'pluginOptions' => [
-				        'allowClear' => true,
-				        'minimumInputLength' => 1,
-				        'ajax' => [
-				            'url' => "https://api.github.com/search/repositories",
-				            'dataType' => 'json',
-				            'delay' => 250,
-				            'data' => new JsExpression('function(params) { return {q:params.term, page: params.page}; }'),
-				            'processResults' => new JsExpression('resultData'),
-				            'cache' => true
-				        ],
-				        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-				        'templateResult' => new JsExpression('formatRepo'),
-				        'templateSelection' => new JsExpression('formatRepoSelection'),
-				    ],
-				]);*/
-			?>
-		</div>
-
 		<!-- untuk alamat -->
 		<?php \yii\widgets\Pjax::begin(['id'=>'checkout-address']); ?>
 		<?php if($defaultAddress == null){ ?>
@@ -133,7 +107,8 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
 				         	<span></span>
 				         	<br class="hidden-xs">
 				         	<span>
-				         	jika sudah pernah berbelanja sebelumnya</span>
+				         		jika sudah pernah berbelanja sebelumnya
+				         	</span>
 				        </p>
 			      	</div>
 			      	<div class="col-sm-4 text-right">
@@ -151,7 +126,7 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
 		</div>
 		<?php } else { ?>
 		<div class="well col-md-9">
-			<div class="transaction-card col-md-9">
+			<div class="transaction-card col-md-12">
 			   <div class="row transaction-card-body">
 			      	<div class="col-sm-3 col-xs-5">
 			         	<p><b>Penerima</b><br/>
@@ -163,7 +138,7 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
 			         	<span><?= $defaultAddress->address ;?> Sukmajaya - Depok. Jawa Barat - 16415.</span></p>
 			      	</div>
 			      	<div class="col-sm-3 col-xs-12">
-			      		<?= Html::a(Yii::t('app','Change Address'), ['user-address/use-address','id'=>md5($defaultAddress->id)],
+			      		<?= Html::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app','Change Address'), ['user-address/use-address','id'=>md5($defaultAddress->id)],
                     			[
                     				'role'=>'modal-remote',
                     				'title'=> 'Change Address',

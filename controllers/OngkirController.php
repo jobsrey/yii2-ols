@@ -14,7 +14,7 @@ class OngkirController extends \yii\web\Controller
 	        $id = end($_POST['depdrop_parents']);
 
 			$model = new FormOrder();
-			$list = $model->ambilCity($id);
+			$list = $model->ambilCityDep($id);
 
 	        $selected  = null;
 	        if ($id != null && count($list) > 0) {

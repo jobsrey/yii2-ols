@@ -62,6 +62,7 @@ class UserAddress extends \yii\db\ActiveRecord
             'phone_number' => Yii::t('app', 'Phone Number'),
             'is_default' => Yii::t('app', 'Save as fixed address'),
             'user_id' => Yii::t('app', 'User'),
+            'selectPreset' => Yii::t('app','Select Address'),
         ];
     }
 
@@ -69,5 +70,52 @@ class UserAddress extends \yii\db\ActiveRecord
         $modelForm = new FormOrder();
 
         return $modelForm->ambilProvice();
+    }
+
+    public function ambilCity($province_id){
+        $modelForm = new FormOrder();
+        return $modelForm->ambilCity($province_id);
+    }
+
+    /*mengambil data city di rajaongkir.com*/
+    public function ambilProviceAndCityByOne(){
+
+        $cacing = Yii::$app->cache; //add library cache
+
+        $presetDefault = $cacing->get('defaultPresetLoc_'.$this->city_id.'_'.$this->province_id); // buat mbedain aja
+
+
+        if($presetDefault === false){
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.rajaongkir.com/starter/city?id=".$this->city_id."&province=".$this->province_id,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "key: 2e1133159f82d8cde07efe55272489ad"
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            } else {
+                $result = json_decode($response,true);
+                $result = $result['rajaongkir']['results'];
+
+                $cacing->set('defaultPresetLoc_'.$this->city_id.'_'.$this->province_id, $result, 3600); // di cache 300 detik
+                $presetDefault = $cacing->get('defaultPresetLoc_'.$this->city_id.'_'.$this->province_id);
+            }
+        }
+
+        return $presetDefault;
     }
 }

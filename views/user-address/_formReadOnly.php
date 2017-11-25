@@ -26,6 +26,7 @@ $dataPreset = ArrayHelper::map(\jobsrey\ols\models\UserAddress::find()->asArray(
 /*register select2 javascript ajax custom*/
 $this->registerJs($this->render('dropdownPresetAlamatFormrReadOnly.js'),\yii\web\View::POS_HEAD);
 
+$presetLoc = $model->ambilProviceAndCityByOne();
 
 ?>
 
@@ -39,6 +40,23 @@ $this->registerJs($this->render('dropdownPresetAlamatFormrReadOnly.js'),\yii\web
 
     <?= $form->errorSummary($model); ?>
 
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app','Edit'),['user-address/update-address-checkout','id'=>md5($model->id)],[
+                    'class' => 'btn btn-primary pull-right',
+                    'role'=>'modal-remote',
+                ])?>
+                <?= Html::a('<span class="glyphicon glyphicon-plus"></span> '.Yii::t('app','Add Address'),['user-address/create-address-checkout','id'=>md5($model->id)],[
+                    'class' => 'btn btn-primary pull-right',
+                    'role'=>'modal-remote',
+                    'style'=>"margin-right: 10px;",
+                ])?>
+            </p>
+        </div>
+    </div>
+    <br>
+
     <?= $form->field($model, 'selectPreset')->dropDownList($dataPreset,['id'=>'Preset']) ?>
     
     <?= $form->field($model, 'recipient_name')->textInput(['maxlength' => true,'readonly'=>true]) ?>
@@ -46,20 +64,13 @@ $this->registerJs($this->render('dropdownPresetAlamatFormrReadOnly.js'),\yii\web
     <?= $form->field($model, 'address')->textarea(['rows' => 6,'readonly'=>true]) ?>
 
 
-    <?= $form->field($model, 'province_id')->dropDownList($model->ambilProvice(), ['id'=>'city-id','readonly'=>true]); ?>
+    <?= $form->field($model, 'province_id')->textInput(['id'=>'city-id','disabled'=>true,'value'=>$presetLoc['province']]); ?>
     
     <div class="row">
         <div class="col-md-12 col-md-offset-3">
-            <?php
-                    echo $form->field($model, 'city_id')->widget(DepDrop::classname(), [
-                        'options'=>['id'=>'subcat-id','placeholder'=>'Select City'],
-                        'pluginOptions'=>[
-                            'depends'=>['city-id'],
-                            'placeholder'=>Yii::t('app','Select city').'...',
-                            'url'=>Url::to(['ongkir/get-city'])
-                        ]
-                    ])->label(false);
-            ?>
+            
+            <?= $form->field($model, 'city_id')->textInput(['id'=>'city-id','disabled'=>true,'value'=>$presetLoc['city_name']])->label(false);; ?>
+
         </div>
     </div>
 
@@ -77,12 +88,12 @@ $this->registerJs($this->render('dropdownPresetAlamatFormrReadOnly.js'),\yii\web
     <div class="row">
         <div class="col-md-12 col-md-offset-1">
             <?php
-                echo $form->field($model, 'is_default', [
+                /*echo $form->field($model, 'is_default', [
                     'template' => '{input}<label>'.Yii::t('app','Save as fixed address').'</label>{error}{hint}',
                     'labelOptions' => ['class' => 'cbx-label']
                 ])->widget(CheckboxX::classname(), [
                     'pluginOptions'=>['threeState'=>false]
-                ])->label(false);
+                ])->label(false);*/
             ?>
         </div>
     </div>
