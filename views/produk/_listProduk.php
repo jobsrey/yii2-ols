@@ -4,24 +4,23 @@ use yii\helpers\HtmlPurifier;
 ?>
 
 
-
 <div class="item  col-xs-4 col-lg-4">
     <div class="thumbnail">
-        <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
+        <img class="group list-group-image" src="https://d2z1i9y16ulya2.cloudfront.net/uploads/items/square/ca66044c884c9b1028d4af2da3c75851573661cc7142b206303003a897e5fa5d.jpeg" alt="" />
         <div class="caption">
-            <h4 class="group inner list-group-item-heading">
+            <h5 class="group inner list-group-item-heading">
                 <?= Html::a($model->name,['produk/view','slug'=>$model->slug]) ;?>    
-            </h4>
-            <p class="group inner list-group-item-text">
-                Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+            </h5>
             <div class="row">
                 <div class="col-xs-12 col-md-6">
-                    <p class="lead">
-                        $21.000</p>
+                    <p style="font-size: 11px;">
+                        My Branch
+                    </p>
                 </div>
                 <div class="col-xs-12 col-md-6">
-                    <a class="btn btn-success btn-sm" href="http://www.jquery2dotnet.com">Add to cart</a>
+                    <a href="/item/baby-bandana-a2/kakedaclothingline/80257">
+                        <span itemprop="price" class="col-md-12 product-card-price">Rp. <?= $model->price ;?></span>
+                    </a>
                 </div>
             </div>
         </div>

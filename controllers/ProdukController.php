@@ -20,6 +20,8 @@ class ProdukController extends \yii\web\Controller
 		$searchModel = new ProdukSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $dataProvider->pagination->pageSize=18;
+
         return $this->render('index',['dataProvider'=>$dataProvider]);
     }
 

@@ -30,8 +30,13 @@ class CheckoutController extends \yii\web\Controller
 		    'key'=>'id',
 		]);
 
+    	$dataShopping = $cart->getPositions();
 
-        return $this->render('index',['dataProvider'=>$dataProvider,'defaultAddress'=>$this->callDefaultAddress()]);
+    	if(count($dataShopping) > 0){
+        	return $this->render('index',['dataProvider'=>$dataProvider,'dataShopping'=>$dataShopping,'defaultAddress'=>$this->callDefaultAddress()]);
+    	} else {
+    		return $this->render('cart_empty');
+    	}
     }
 
     public function actionEditqty(){
@@ -98,6 +103,11 @@ class CheckoutController extends \yii\web\Controller
 	    }
 
         return null;
+    }
+
+
+    public function actionMethodPayment(){
+    	return $this->render('method_payment');
     }
 
 

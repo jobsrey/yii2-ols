@@ -6,10 +6,12 @@ use yii\data\ActiveDataProvider;
 ?>
 <div class="col-md-3">
 	<!-- sidebar untuk kategori dan kawan2 -->
+	<!-- Untuk menu pencarian produk -->
+	<?= $this->render('_filter_search');?>
 </div>
-<div class="col-md-8">
+<div class="col-md-9">
 	<div class="col-md-12">
-		<!-- Untuk menu pencarian produk -->
+		
 	</div>
 	<div class="col-md-12">
 		<h1>Hello</h1>
@@ -70,13 +72,21 @@ use yii\data\ActiveDataProvider;
 			{
 			    margin: 0 0 11px;
 			}
+
+			.product-card-price, .product-card-price-small {
+			    font-weight: 700;
+			    font-size: 12px;
+			    text-align: right;
+			    color: #00b4ac;
+			}
+
 		</style>
-		<div id="products" class="row list-group">
-			<?= ListView::widget([
-			    'dataProvider' => $dataProvider,
-			    'itemView' => '_listProduk',
-			]); ?>
-		</div>
+		
+		<?= ListView::widget([
+		    'dataProvider' => $dataProvider,
+		    'itemView' => '_listProduk',
+		    'layout' => "{summary}\n<div id=\"products\" class=\"row list-group\">{items}</div>\n{pager}"
+		]); ?>
 		
 		<!-- untuk list produk -->
 	</div>

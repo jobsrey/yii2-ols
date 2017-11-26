@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\helpers\Json;
-
+use kartik\touchspin\TouchSpin;
 
 $this->title = Yii::t('app','Checkout');
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,125 +30,165 @@ Modal::end();
 /*register select2 javascript ajax custom*/
 $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
 
+
 ?>
-<h1>Checkout</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <!-- pilih alamat -->
+        <!-- untuk alamat -->
+        <?php \yii\widgets\Pjax::begin(['id'=>'checkout-address']); ?>
+        <?php if($defaultAddress == null){ ?>
+        <div class="well col-md-12">
+            <div class="transaction-card col-md-12">
+                <div class="row transaction-card-body">
+                    <div class="col-sm-8">
+                        <p>
+                            <b><?= Yii::t('app','You do not have a shipping address yet');?>.</b>
+                            <br/>
+                            <span>
+                                Masukkan alamat pengiriman atau
+                            </span>
+                            <a href="/user/login?redirect=%2Fcart">
+                                masuk dengan akunmu
+                            </a>
+                            <span></span>
+                            <br class="hidden-xs">
+                            <span>
+                                jika sudah pernah berbelanja sebelumnya
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        <span class="hidden-xs"><br></span>
+                        <p>
+                            <?= Html::a(Yii::t('app','Enter the shipping address'), ['user-address/add-address'],
+                                [
+                                    'role'=>'modal-remote',
+                                    'title'=> 'Create new Adree',
+                                    'class'=>'btn btn-primary']);?>             
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="well col-md-12">
+            <div class="transaction-card col-md-12">
+               <div class="row transaction-card-body">
+                    <div class="col-sm-3 col-xs-5">
+                        <p><b>Penerima</b><br/>
+                        <span><?=$defaultAddress->recipient_name ;?></span>
+                        <br><span><?=$defaultAddress->phone_number ;?></span></p>
+                    </div>
+                    <div class="col-sm-6 col-xs-7">
+                        <p><b>Alamat Pengiriman</b><br>
+                        <span><?= $defaultAddress->address ;?> Sukmajaya - Depok. Jawa Barat - 16415.</span></p>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                        <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app','Change Address'), ['user-address/use-address','id'=>md5($defaultAddress->id)],
+                                [
+                                    'role'=>'modal-remote',
+                                    'title'=> 'Change Address',
+                                    'class'=>'btn btn-primary']);?> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php \yii\widgets\Pjax::end(); ?>
+    </div>
 
-<div class="checkout">
-	<div class="row">
-		<div class="col-md-9">
-		<?php \yii\widgets\Pjax::begin(['id'=>'crud-checkout']); ?>
-			<!-- Tempat Grid View nya -->
-			<?php
-				echo GridView::widget([
-				    'dataProvider' => $dataProvider,
-				    // 'filterModel' => $searchModel,
-				    'columns' => require(__DIR__.'/_column.php'),
-				    'containerOptions' => ['style'=>'overflow: auto'], // only set when $responsive = false
-				    'toolbar'=> [
-		                ['content'=>
-		                    '{toggleData}'
-		                    // '{export}'
-		                ],
-		            ],
-				    'pjax' => true,
-				    'bordered' => true,
-				    'striped' => false,
-				    'condensed' => false,
-				    'responsive' => true,
-				    'responsiveWrap' => false,
-				    'hover' => true,
-				    'floatHeader' => true,
-				    // 'floatHeaderOptions' => ['scrollingTop' => $scrollingTop],
-				    'showPageSummary' => true,
-				    'panel' => [
-		                'type' => 'success', 
-		                'heading' => '<i class="glyphicon glyphicon-list"></i> '.Yii::t('app','List Checkout Product'),
-		                'before'=>'',
-		                'after'=>BulkButtonWidget::widget([
-		                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; '.Yii::t('app','Delete All'),
-		                                ["bulkdelete"] ,
-		                                [
-		                                    "class"=>"btn btn-danger btn-xs",
-		                                    'role'=>'modal-remote-bulk',
-		                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-		                                    'data-request-method'=>'post',
-		                                    'data-confirm-title'=>'Are you sure?',
-		                                    'data-confirm-message'=>'Are you sure want to delete this item'
-		                                ]),
-		                        ]).                        
-		                        '<div class="clearfix"></div>',
-		            ]
-				]);
-			?>
-		<?php \yii\widgets\Pjax::end(); ?>
-		</div>
-		<div class="col-md-3">
-		</div>
-	</div>
 
-	
-	<div class="row">
-		<!-- untuk alamat -->
-		<?php \yii\widgets\Pjax::begin(['id'=>'checkout-address']); ?>
-		<?php if($defaultAddress == null){ ?>
-		<div class="well col-md-9">
-			<div class="transaction-card col-md-12">
-			   	<div class="row transaction-card-body">
-			      	<div class="col-sm-8">
-				        <p>
-				         	<b><?= Yii::t('app','You do not have a shipping address yet');?>.</b>
-				         	<br/>
-				         	<span>
-				         		Masukkan alamat pengiriman atau
-				         	</span>
-				         	<a href="/user/login?redirect=%2Fcart">
-				         		masuk dengan akunmu
-				         	</a>
-				         	<span></span>
-				         	<br class="hidden-xs">
-				         	<span>
-				         		jika sudah pernah berbelanja sebelumnya
-				         	</span>
-				        </p>
-			      	</div>
-			      	<div class="col-sm-4 text-right">
-			         	<span class="hidden-xs"><br></span>
-			         	<p>
-				         	<?= Html::a(Yii::t('app','Enter the shipping address'), ['user-address/add-address'],
-                    			[
-                    				'role'=>'modal-remote',
-                    				'title'=> 'Create new Adree',
-                    				'class'=>'btn btn-primary']);?>				
-        				</p>
-			      	</div>
-			   	</div>
-			</div>
-		</div>
-		<?php } else { ?>
-		<div class="well col-md-9">
-			<div class="transaction-card col-md-12">
-			   <div class="row transaction-card-body">
-			      	<div class="col-sm-3 col-xs-5">
-			         	<p><b>Penerima</b><br/>
-			         	<span><?=$defaultAddress->recipient_name ;?></span>
-			         	<br><span><?=$defaultAddress->phone_number ;?></span></p>
-			      	</div>
-			      	<div class="col-sm-6 col-xs-7">
-			         	<p><b>Alamat Pengiriman</b><br>
-			         	<span><?= $defaultAddress->address ;?> Sukmajaya - Depok. Jawa Barat - 16415.</span></p>
-			      	</div>
-			      	<div class="col-sm-3 col-xs-12">
-			      		<?= Html::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app','Change Address'), ['user-address/use-address','id'=>md5($defaultAddress->id)],
-                    			[
-                    				'role'=>'modal-remote',
-                    				'title'=> 'Change Address',
-                    				'class'=>'btn btn-primary']);?>	
-			      	</div>
-			   	</div>
-			</div>
-		</div>
-		<?php } ?>
-		<?php \yii\widgets\Pjax::end(); ?>
 
-	</div>
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($dataShopping as $value) { ?>
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#"><?= $value->name;?></a></h4>
+                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
+                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-sm-2 col-md-2" style="text-align: center">
+                            <?php
+                                echo TouchSpin::widget([
+                                    'name' => 'volume',
+                                    'readonly' => true,
+                                    'options' => [
+                                        'id' => 'id_saya'
+                                    ],
+                                    'pluginOptions' => [
+                                        'verticalbuttons' => true,
+                                        'min' => 1,
+                                        'max' => 5000,
+                                        'initval' => $value->quantity,
+                                    ],
+                                    'pluginEvents' => [
+                                        "touchspin.on.startspin " => 'function() { 
+                                            var iniData = $(this).val();
+                                            console.log(iniData);
+                                        }',
+                                    ],
+                                ]);
+                            ?>
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                        </button></td>
+                    </tr>
+                <?php } ?>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h5>Subtotal</h5></td>
+                    <td class="text-right"><h5><strong>$24.59</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h5>Estimated shipping</h5></td>
+                    <td class="text-right"><h5><strong>$6.94</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h3>Total</h3></td>
+                    <td class="text-right"><h3><strong>$31.53</strong></h3></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                    </button></td>
+                    <td>
+                    <button type="button" class="btn btn-success">
+                        Checkout <span class="glyphicon glyphicon-play"></span>
+                    </button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
