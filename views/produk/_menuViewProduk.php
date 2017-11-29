@@ -14,11 +14,11 @@ use yii\bootstrap\Nav;
         ],
         [
             'label' => Yii::t('app', 'Review').' (0)',
-            'url' => ['produk/review','id'=>md5($model->id)],
+            'url' => ['produk/review','slug'=>$model->slug],
         ],
         [
             'label' => Yii::t('app','Product Discussion').' (0)',
-            'url' => ['produk/product-discussion','id'=>md5($model->id)],
+            'url' => ['produk/product-discussion','slug'=>$model->slug],
         ],
     ],
 ]) ?>

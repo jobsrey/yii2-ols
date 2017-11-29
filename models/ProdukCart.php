@@ -21,6 +21,7 @@ class ProdukCart extends \yii\db\ActiveRecord implements CartPositionInterface
 
     use CartPositionTrait;
 
+    public $msg_to_seller; // message to seller
     public $tagValues; //for tag widget string
     public $picture;
     // public $quantity;
@@ -76,7 +77,7 @@ class ProdukCart extends \yii\db\ActiveRecord implements CartPositionInterface
             [['qty', 'is_new','post_status'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 255],
-            [['tagValues','slug'],'safe'],
+            [['tagValues','slug','msg_to_seller'],'safe'],
         ];
     }
 
