@@ -122,6 +122,7 @@ class UserAddress extends \yii\db\ActiveRecord
                 $result = json_decode($response,true);
                 $result = $result['rajaongkir']['results'];
 
+
                 $cacing->set('defaultPresetLoc_'.$this->city_id.'_'.$this->province_id, $result, 3600); // di cache 300 detik
                 $presetDefault = $cacing->get('defaultPresetLoc_'.$this->city_id.'_'.$this->province_id);
             }

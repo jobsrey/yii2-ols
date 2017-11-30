@@ -19,6 +19,10 @@ CrudAsset::register($this);
 
 Modal::begin([
     "id"=>"ajaxCrudModal",
+    "options"=> [
+        'data-backdrop'=>"static",
+        'data-keyboard'=>"false",
+    ],
     "footer"=>"",// always need it for jquery plugin
 ]);
 

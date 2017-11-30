@@ -62,7 +62,7 @@ class ProdukController extends \yii\web\Controller
 
                 $produkCart = ProdukCart::findOne($model->id);
                 $produkCart->msg_to_seller = $modelForm->msg_to_seller;
-                
+
                 if ($produkCart) {
                     $shopping->put($produkCart, $modelForm->qty);
                     return [
@@ -112,8 +112,9 @@ class ProdukController extends \yii\web\Controller
             $model = $this->findProdukCartById($id);
             $cart->remove($model);
             return [
-                    'forceReloadOnely' => true,
+                    'forceOnlyReload' => true,
                     'forceClose'  => true, 
+                    'content'=>'<span class="text-success">Delete success!</span>',
                     // 'forceReload' => '#crud-checkout',
             ]; 
         }
