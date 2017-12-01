@@ -19,6 +19,10 @@ CrudAsset::register($this);
 
 Modal::begin([
     "id"=>"ajaxCrudModal",
+    "options"=> [
+        'data-backdrop'=>"static",
+        'data-keyboard'=>"false",
+    ],
     "footer"=>"",// always need it for jquery plugin
 ]);
 
@@ -117,19 +121,19 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
                         <td class="col-sm-8 col-md-6">
                         <div class="media">
                             <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
-                            <div class="media-body">
+                            <div class="media-body" style="padding-left: 10px;">
                                 <h4 class="media-heading"><a href="#"><?= $value->name;?></a></h4>
                                 <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
-                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                                <span>Status: </span><span class="text-success"><strong><?= $value->msg_to_seller;?></strong></span>
                             </div>
                         </div></td>
                         <td class="col-sm-2 col-md-2" style="text-align: center">
                             <?php
                                 echo TouchSpin::widget([
-                                    'name' => 'volume',
+                                    'name' => 'volume'.$value->id,
                                     'readonly' => true,
                                     'options' => [
-                                        'id' => 'id_saya'
+                                        'id' => 'id_saya'.$value->id
                                     ],
                                     'pluginOptions' => [
                                         'verticalbuttons' => true,
@@ -149,9 +153,18 @@ $this->registerJs($this->render('_select2_ajax.js'),\yii\web\View::POS_HEAD);
                         <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
                         <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </button></td>
+                            <?=  Html::a('<i class="glyphicon glyphicon-remove-sign"></i> Remove',['produk/delete-order','id'=>md5($value->id)],[
+                                    'title'                => Yii::t('app', "Delete"), 
+                                    'class'                => 'btn btn-danger',
+                                    'role'                 => 'modal-remote',
+                                    'data-confirm'         => false, 
+                                    'data-method'          => false,
+                                    'data-request-method'  => 'post',
+                                    'data-confirm-title'   => Yii::t('app', "Are you sure?"),
+                                    'data-confirm-message' => Yii::t('app', "Are you sure want to delete this item")
+                                ]);
+                            ?>
+                        </td>
                     </tr>
                 <?php } ?>
                 <tr>

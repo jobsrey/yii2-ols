@@ -1,33 +1,6 @@
 <?php
 
 
-/**
- * @link http://dokumentasi.local-server.link/
- * @copyright Copyright (c) 2015 PT. Buka Media Teknologi
- * @license http://www.bukapeta.co.id/license/
- */
-
-/**
- * Display map canvas with leaflet or openlayers javascipt library
- *
- * How to use:
- * use bukapeta\ex\Styling;
- * 
- * or Call with assign params
- *  <?php 
- *     echo Styling::widget([
- *        'model_id'=>$model->id, // Id data
- *     ]); 
- *  ?> 
- *  
- *
- *  List action controller:
- *  1. data/stylechoropleth #Change Style
- *  2. data/getcolumname  #Get All column in table data
- *  3. data/restylecategoryzed #Change for categoriezed  
- *  4. data/saverestyleadvance #Save restyle for advance 
- */
-
 namespace jobsrey\ols\widgets;
 
 use yii;
@@ -47,14 +20,14 @@ class ProductViewZoomBox extends \yii\base\Widget
         $pathFIleOrImage = Yii::getAlias('@web');
 
         $html_tag = '
-        	<div class="container">
-				<div class="">
+        <div class="container">
+				      <div class="">
 	                <ul id="glasscase" class="gc-start">
 	                    <li><img src="http://www.pngall.com/wp-content/uploads/2016/03/Smartphone-Transparent.png" alt="Text" data-gc-caption="Handphone Baru 1" /></li>
 	                    <li><img src="https://amanandandroid.files.wordpress.com/2013/01/samsung_galaxy_s_ii_plus.png" alt="Text" /></li>
 	                </ul>
 	            </div>
-			</div>';
+			  </div>';
 
         return $html_tag;
 

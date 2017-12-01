@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Vendor styles for this template -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/ubislider.min.css?v=1.0.0.1" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+<div class="container">
+	<div class="clearfix">
+		<div class="ubislider-image-container" data-ubislider="#slider4" id="imageSlider4" data-image="2"><img src="img/sample3.jpg"></div>
+        <div id="slider4" class="ubislider ecommerce" data-slidetime="1">
+            <a class="arrow prev pasive" style="display: none;"></a>
+            <a class="arrow next" style="display: none;"></a>
+            <ul id="gal1" class="ubislider-inner" style="width: 516px; left: -86px;">
+            	<li> 
+            		<a> 
+            			<img class="product-v-img" src="img/sample5.jpg"> 
+            		</a> 
+            	</li>
+            	<li> 
+            		<a> 
+            			<img class="product-v-img" src="img/sample4.jpg"> 
+            		</a> 
+            	</li>
+            	<li> 
+            		<a> 
+            			<img class="product-v-img" src="img/sample3.jpg"> 
+            		</a> 
+            	</li>
+            	<li> 
+            		<a> 
+            			<img class="product-v-img" src="img/sample1.jpg"> 
+            		</a> 
+            	</li>
+            	<li> 
+            		<a> 
+            			<img class="product-v-img" src="img/sample2.jpg"> 
+            		</a> 
+            	</li>
+            	<li> 
+            		<a> 
+            			<img class="product-v-img" src="img/sample3.jpg"> 
+            		</a> 
+            	</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/elevatezoom/3.0.8/jqueryElevateZoom.js"></script>
+<script src="js/ubislider.min.js"></script>
+
+
+<script type="text/javascript">
+    $('#slider4').ubislider({
+        arrowsToggle: true,
+        type: 'ecommerce',
+        hideArrows: true,
+        autoSlideOnLastClick: true,
+        modalOnClick: true,
+        onTopImageChange: function(){
+        	$('#imageSlider4 img').elevateZoom();
+        }
+    }); 
+    $('#slider5').ubislider({
+    	bullets: true
+    }); 
+</script>
+
+</body>
+</html>

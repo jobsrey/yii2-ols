@@ -16,76 +16,69 @@ use yii\data\ActiveDataProvider;
 	<div class="col-md-12">
 		<h1>Hello</h1>
 		<style type="text/css">
-			.thumbnail
-			{
-			    margin-bottom: 20px;
-			    padding: 0px;
-			    -webkit-border-radius: 0px;
-			    -moz-border-radius: 0px;
-			    border-radius: 0px;
-			}
+			@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700&subset=latin-ext,vietnamese');   
+			
+			body {
+			 	#my-products font-family: 'Quicksand', sans-serif;}
+			   	h4{
+			    	font-weight: 600;
+				}
+				p{
+					font-size: 12px;
+					margin-top: 5px;
+				}
+				.price{
+					font-size: 30px;
+			    	margin: 0 auto;
+			    	color: #333;
+				}
 
-			.item.list-group-item
-			{
-			    float: none;
-			    width: 100%;
-			    background-color: #fff;
-			    margin-bottom: 10px;
+				.thumbnail{
+					opacity:0.70;
+					-webkit-transition: all 0.5s; 
+					transition: all 0.5s;
+				}
+				.thumbnail:hover{
+					opacity:1.00;
+					box-shadow: 0px 0px 10px #4bc6ff;
+				}
+				.line{
+					margin-bottom: 5px;
+				}
+				@media screen and (max-width: 770px) {
+					.right{
+						float:left;
+						width: 100%;
+					}
+				}
+				span.thumbnail {
+			        border: 1px solid #00c4ff !important;
+			    border-radius: 0px !important;
+			    -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.16);
+			    -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.16);
+			    box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.16);
+				padding: 10px;
 			}
-			.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
-			{
-			    background: #428bca;
+			#my-products h4{margin-top:70px; margin-bottom:30px;}
+			button {    margin-top: 6px;
 			}
-
-			.item.list-group-item .list-group-image
-			{
-			    margin-right: 10px;
+			.right {
+			    float: right;
+			    border-bottom: 2px solid #0a5971;
 			}
-			.item.list-group-item .thumbnail
-			{
-			    margin-bottom: 0px;
+			.btn-info {
+			    color: #fff;
+			    background-color: #19b4e2;
+			    border-color: #19b4e2;
+				font-size:13px;
+				font-weight:600;
 			}
-			.item.list-group-item .caption
-			{
-			    padding: 9px 9px 0px 9px;
-			}
-			.item.list-group-item:nth-of-type(odd)
-			{
-			    background: #eeeeee;
-			}
-
-			.item.list-group-item:before, .item.list-group-item:after
-			{
-			    display: table;
-			    content: " ";
-			}
-
-			.item.list-group-item img
-			{
-			    float: left;
-			}
-			.item.list-group-item:after
-			{
-			    clear: both;
-			}
-			.list-group-item-text
-			{
-			    margin: 0 0 11px;
-			}
-
-			.product-card-price, .product-card-price-small {
-			    font-weight: 700;
-			    font-size: 12px;
-			    text-align: right;
-			    color: #00b4ac;
-			}
-
 		</style>
 		
 		<?= ListView::widget([
 		    'dataProvider' => $dataProvider,
 		    'itemView' => '_listProduk',
-		    'layout' => "{summary}\n<div id=\"products\" class=\"row list-group\">{items}</div>\n{pager}"
+		    'layout' => "{summary}\n<div id=\"my-products\" class=\"row\">{items}</div>\n{pager}"
 		]); ?>
 		
 		<!-- untuk list produk -->
