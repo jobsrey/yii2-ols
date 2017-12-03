@@ -80,6 +80,31 @@ class CheckoutController extends \yii\web\Controller
 	    // return $this->render('view', ['model'=>$model]);
     }
 
+
+    public function actionPaymentMethod(){
+
+    	$cart = new ShoppingCart();
+
+    	$dataProvider = new ArrayDataProvider([
+		    'allModels' => $cart->getPositions(),
+		    'sort' => [
+		        'attributes' => ['name','qty','price','quantity','cost'],
+		    ],
+		    'pagination' => [
+		        'pageSize' => 10,
+		    ],
+		    'key'=>'id',
+		]);
+
+    	$dataShopping = $cart->getPositions();
+
+    	if(count($dataShopping) > 0){
+        	return $this->render('payment_method',['dataProvider'=>$dataProvider,'dataShopping'=>$dataShopping,'defaultAddress'=>$this->callDefaultAddress()]);
+    	} else {
+			return $this->render('cart_empty');
+		}    	
+    }
+
     protected function callDefaultAddress(){
     	$session = Yii::$app->session;
 
@@ -108,6 +133,23 @@ class CheckoutController extends \yii\web\Controller
 
     public function actionMethodPayment(){
     	return $this->render('method_payment');
+    }
+
+
+    public function actionUpdateCart(){
+    	$cart = new ShoppingCart();
+
+    	if(isset($_POST['cart']) && isset($_POST['cart_id'])){
+
+    		$model = ProdukCart::findOne($_POST['cart_id']);
+		    if ($model) {
+		        $cart->update($model, $_POST['cart']);
+		        return true;
+		    }	
+    	}
+
+	    
+	    throw new NotFoundHttpException();
     }
 
 
